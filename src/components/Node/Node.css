@@ -1,0 +1,171 @@
+.node {
+    width: var(--width);
+    height: var(--height);
+    border: solid rgb(175, 216, 248);
+    border-width: thin !important;
+    display: inline-block;
+    box-sizing: border-box;
+    border-bottom: none;
+}
+
+.node:not(:last-child) {
+    border-right: none; /* Remove right border for all but the last child */
+}
+
+.node-start {
+    background-color: #2ecc71;
+}
+
+.node-finish {
+    background-color: red;
+}
+
+.node-finish-reached {
+    animation-name: finishVisitedAnimation;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    animation-direction: alternate;
+    animation-fill-mode: forwards;
+}
+
+.node-wall {
+    width: var(--width);
+    height: var(--height);
+    background-color: #832b2d;
+    /* border: 1px solid rgb(175, 216, 248); */
+    display: inline-block;
+}
+
+.node-wall-animated {
+    width: var(--width);
+    height: var(--height);
+    display: inline-block;
+    animation-name: wallAnimation;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-direction: alternate;
+    animation-fill-mode: forwards;
+}
+
+.node-visited {
+    animation-name: visitedAnimation;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    animation-direction: alternate;
+    animation-fill-mode: forwards;
+}
+
+.node-shortest-path {
+    animation-name: shortestPathAnimation;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-direction: alternate;
+    animation-fill-mode: forwards;
+}
+
+@keyframes wallAnimation {
+    0% {
+        transform: scale(0.4);
+        background-color: #944041;
+        border-radius: 30%;
+        border: none;
+    }
+
+    50% {
+        transform: scale(0.6);
+        background-color: #8f393b;
+        border-radius: 20%;
+        border: none;
+    }
+
+
+    75% {
+        transform: scale(0.8);
+        background-color: #813334;
+        border-radius: 10%;
+        border: none;
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: #832b2d;
+        /* border: 1px solid rgb(175, 216, 248); */
+        border: none;
+    }
+}
+
+@keyframes visitedAnimation {
+    0% {
+        transform: scale(0.3);
+        background-color: rgb(255, 0, 255);
+        border-radius: 100%;
+    }
+
+    50% {
+        transform: scale(0.5);
+        background-color: rgba(71, 117, 158, 0.75);
+        border-radius: 75%;
+    }
+
+    75% {
+        transform: scale(0.7);
+        background-color: rgba(78, 175, 207, 0.75);
+        border-radius: 50%;
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: rgba(109, 231, 250, 0.75);
+    }
+}
+
+@keyframes shortestPathAnimation {
+    0% {
+        transform: scale(0.3);
+        background-color: #E1AD01;
+        border-radius: 100%;
+    }
+
+    50% {
+        transform: scale(0.5);
+        background-color: #E1AD01;
+        border-radius: 75%;
+    }
+
+    75% {
+        transform: scale(0.7);
+        background-color: #E1AD01;
+        border-radius: 50%;
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: #E1AD01;
+        border: none;
+    }
+}
+
+@keyframes finishVisitedAnimation {
+    0% {
+        transform: scale(0.5);
+        background-color: red;
+        border-radius: 50%;
+    }
+
+    50% {
+        transform: scale(0.8);
+        background-color: red;
+        border-radius: 25%;
+    }
+
+    75% {
+        transform: scale(1.2);
+        background-color: red;
+        border-radius: 20%;
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: red;
+    }
+}
