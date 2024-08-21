@@ -7,7 +7,7 @@ import NavBar from "./NavBar/NavBar";
 
 // Import search algorithms for solving mazes.
 import {dijkstra, getOptPathNodes_Dijkstra,} from "../search_algorithms/dijkstra";
-
+import { breadthFirstSearch , getOptPathNodes_BFS } from "../search_algorithms/breadthFirstSearch";
 import {recursiveDivisionMaze} from "../maze_algorithms/recursiveDivisionMaze";
 
 const initDims = getInitDimensions(window.innerWidth, window.innerHeight);
@@ -224,6 +224,25 @@ class MazeSolver extends Component {
 
     }
 
+    visualizeBFS() {
+        if(this.state.visualizingAlgorithm || this.state.generatingMaze) return;
+
+        this.setState({
+            visualizingAlgorithm : true
+        });
+
+        setTimeout(() => {
+            const {grid} = this.state;
+            const startNode = grid[startNodeRow][startNodeCol];
+            const finishNode = grid[finishNodeRow][finishNodeCol];
+
+            const visitedNodesInOrder = breadthFirstSearch(grid,startNode,finishNode);
+            const nodesInShortestPathOrder = getOptPathNodes_BFS(finishNode);
+
+            this.animateAlgorithm(visitedNodesInOrder,nodesInShortestPathOrder);
+        }, this.state.speed);
+    }
+
 
 
     // MAZE METHODS:
@@ -301,6 +320,7 @@ class MazeSolver extends Component {
                     generatingMaze={this.state.generatingMaze}
 
                     visualizeDijkstra={this.visualizeDijkstra.bind(this)}
+                    visualizeBFS={this.visualizeBFS.bind(this)}
                     generateRecursiveDivisionMaze={this.generateRecursiveDivisionMaze.bind(this)}
                    
 
