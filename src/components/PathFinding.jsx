@@ -9,6 +9,7 @@ import NavBar from "./NavBar/NavBar";
 import {dijkstra, getOptPathNodes_Dijkstra,} from "../search_algorithms/dijkstra";
 import { breadthFirstSearch , getOptPathNodes_BFS } from "../search_algorithms/breadthFirstSearch";
 import { depthFirstSearch, getOptPathNodes_DFS } from "../search_algorithms/depthFirstSearch";
+import { greedyBestFS , getOptPathNodes_GreedyBestFS } from "../search_algorithms/greedyBestFirstSearch";
 
 
 import {recursiveDivisionMaze} from "../maze_algorithms/recursiveDivisionMaze";
@@ -286,6 +287,29 @@ class MazeSolver extends Component {
         }, this.state.speed);
     }
 
+    visualizeGreedyBFS() {
+
+        if (this.state.visualizingAlgorithm || this.state.generatingMaze) return;
+
+        this.setState({
+            visualizingAlgorithm: true
+        });
+
+        setTimeout(() => {
+
+            const {grid} = this.state;
+            const startNode = grid[startNodeRow][startNodeCol];
+            const finishNode = grid[finishNodeRow][finishNodeCol];
+
+            const visitedNodesInOrder = greedyBestFS(grid, startNode, finishNode);
+            const nodesInShortestPathOrder = getOptPathNodes_GreedyBestFS(finishNode);
+
+            this.animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder);
+
+        }, this.state.speed);
+
+    }
+
 
     // MAZE METHODS:
 
@@ -380,6 +404,7 @@ class MazeSolver extends Component {
                     visualizeDijkstra={this.visualizeDijkstra.bind(this)}
                     visualizeBFS={this.visualizeBFS.bind(this)}
                     visualizeDFS= {this.visualizeDFS.bind(this)}
+                    visualizeGreedyBFS= {this.visualizeGreedyBFS.bind(this)}
 
                     generateRandomMaze= {this.generateRandomMaze.bind(this)}
                     generateRecursiveDivisionMaze={this.generateRecursiveDivisionMaze.bind(this)}
