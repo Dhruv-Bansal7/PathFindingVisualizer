@@ -9,7 +9,10 @@ import NavBar from "./NavBar/NavBar";
 import {dijkstra, getOptPathNodes_Dijkstra,} from "../search_algorithms/dijkstra";
 import { breadthFirstSearch , getOptPathNodes_BFS } from "../search_algorithms/breadthFirstSearch";
 import { depthFirstSearch, getOptPathNodes_DFS } from "../search_algorithms/depthFirstSearch";
+
+
 import {recursiveDivisionMaze} from "../maze_algorithms/recursiveDivisionMaze";
+import { randomMaze } from "../maze_algorithms/randomMaze";
 
 const initDims = getInitDimensions(window.innerWidth, window.innerHeight);
 const initNumRows = initDims[0];
@@ -202,6 +205,28 @@ class MazeSolver extends Component {
 
     };
 
+    animateRandomWalk = (nodesVisitedOrdered) => {
+        for(let i=1;i<=nodesVisitedOrdered.length;i++){
+            if(i === nodesVisitedOrdered.length){
+                setTimeout(() => {
+                    this.setState({
+                        visualizingAlgorithm : false
+                    });
+                }, i * this.state.speed);
+            }
+            let node = nodesVisitedOrdered[i];
+            if(i === nodesVisitedOrdered.length-1){
+                setTimeout(() => {
+                    document.getElementById(`node-${node.row}-${ndoe.col}`).className = "node node-finish-reached";
+                }, i * this.state.speed);
+            }
+
+            setTimeout(() => {
+                document.getElementById(`node-${node.row}-${node.col}`).className = "node node-visited";
+            }, i * this.state.speed);
+        }
+    }
+
     visualizeDijkstra() {
 
         if (this.state.visualizingAlgorithm || this.state.generatingMaze) return;
@@ -297,6 +322,22 @@ class MazeSolver extends Component {
 
     };
 
+    generateRandomMaze() {
+        if(this.state.visualizingAlgorithm || this.state.generatingMaze) return;
+
+        this.setState({
+            generatingMaze : true
+        });
+
+        setTimeout(() => {
+            const {grid} = this.state;
+            const startNode = grid[startNodeRow][startNodeCol];
+            const finishNode = grid[finishNodeRow][finishNodeCol];
+            const walls = randomMaze(grid,startNode,finishNode);
+            this.animateMaze(walls);
+        }, this.state.mazeSpeed);
+    }
+
     generateRecursiveDivisionMaze() {
 
         if (this.state.visualizingAlgorithm || this.state.generatingMaze) return;
@@ -339,6 +380,8 @@ class MazeSolver extends Component {
                     visualizeDijkstra={this.visualizeDijkstra.bind(this)}
                     visualizeBFS={this.visualizeBFS.bind(this)}
                     visualizeDFS= {this.visualizeDFS.bind(this)}
+
+                    generateRandomMaze= {this.generateRandomMaze.bind(this)}
                     generateRecursiveDivisionMaze={this.generateRecursiveDivisionMaze.bind(this)}
                    
 
