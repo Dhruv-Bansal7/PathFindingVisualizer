@@ -14,6 +14,8 @@ import { greedyBestFS , getOptPathNodes_GreedyBestFS } from "../search_algorithm
 
 import {recursiveDivisionMaze} from "../maze_algorithms/recursiveDivisionMaze";
 import { randomMaze } from "../maze_algorithms/randomMaze";
+import { horizontalMaze } from "../maze_algorithms/horizontalMaze";
+import { verticalMaze } from "../maze_algorithms/verticalMaze";
 
 const initDims = getInitDimensions(window.innerWidth, window.innerHeight);
 const initNumRows = initDims[0];
@@ -384,6 +386,43 @@ class MazeSolver extends Component {
 
     }
 
+    generateHorizontalMaze () {
+        if(this.state.visualizingAlgorithm || this.state.generatingMaze) return;
+
+        this.setState( {
+            generatingMaze : true
+        });
+
+        setTimeout(() => {
+
+            const {grid} = this.state;
+            const startNode = grid[startNodeRow][startNodeCol];
+            const finishNode = grid[finishNodeRow][finishNodeCol];
+
+            const walls = horizontalMaze(grid,startNode , finishNode);
+            this.animateMaze(walls);
+
+        }, this.state.mazeSpeed);
+    }
+
+    generateVerticalMaze() {
+        if(this.state.visualizingAlgorithm || this.state.generatingMaze) return;
+        this.setState( {
+            generatingMaze : true
+        });
+
+        setTimeout(() => {
+            
+            const {grid} = this.state;
+            const startNode = grid[startNodeRow][startNodeCol];
+            const finishNode = grid[finishNodeRow][finishNodeCol];
+
+            const walls = verticalMaze(grid,startNode,finishNode);
+            this.animateMaze(walls);
+
+        }, this.state.mazeSpeed);
+    }
+
     // MAIN RENDER METHOD:
     // Required for components.
 
@@ -408,6 +447,8 @@ class MazeSolver extends Component {
 
                     generateRandomMaze= {this.generateRandomMaze.bind(this)}
                     generateRecursiveDivisionMaze={this.generateRecursiveDivisionMaze.bind(this)}
+                    generateHorizontalMaze={this.generateHorizontalMaze.bind(this)}
+                    generateVerticalMaze = {this.generateVerticalMaze.bind(this)}
                    
 
                     clearGrid={this.clearGrid.bind(this)}
