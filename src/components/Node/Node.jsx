@@ -12,7 +12,6 @@ class Node extends Component {
     render() {
 
         const {
-
             row,
             col,
 

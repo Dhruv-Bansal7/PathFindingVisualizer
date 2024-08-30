@@ -11,11 +11,11 @@ class NavBar extends Component {
     };
 
     selectAlgorithm(selection) {
+        // if allready some algorithm is running then it return and didn't allow to select another algorithm
         if (this.props.visualizingAlgorithm) return;
 
-        if (selection === this.props.algorithm ||
-            this.props.algorithm === "Visualize Algorithm" ||
-            this.props.algorithm === "Select an Algorithm!") {
+        // First condition : agr jo algo chl rhi h wo hi show ho rhi h || 2nd : wha pr visualizer algo dhik rha ho ya fir 3rd select an algo dhik rha hu to ham andr jayenge
+        if (selection === this.props.algorithm || this.props.algorithm === "Visualize Algorithm" || this.props.algorithm === "Select an Algorithm!") {
 
             this.props.updateAlgorithm(selection);
 
