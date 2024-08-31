@@ -11,6 +11,7 @@ import { breadthFirstSearch , getOptPathNodes_BFS } from "../search_algorithms/b
 import { depthFirstSearch, getOptPathNodes_DFS } from "../search_algorithms/depthFirstSearch";
 import { greedyBestFS , getOptPathNodes_GreedyBestFS } from "../search_algorithms/greedyBestFirstSearch";
 import { aStar , getOptPathNodes_AStar } from "../search_algorithms/astar";
+import { bidirGreedySearch , getOptPathNodes_BidirGreedySearch } from "../search_algorithms/birdirGreedySearch";
 
 
 import {recursiveDivisionMaze} from "../maze_algorithms/recursiveDivisionMaze";
@@ -231,6 +232,51 @@ class MazeSolver extends Component {
         }
     }
 
+    animateBidirectionalAlgorithm(nodesVisitedOrderedStart, nodesVisitedOrderedFinish, nodesOptPathOrdered, isShortedPath) {
+
+        let len = Math.max(nodesVisitedOrderedStart.length, nodesVisitedOrderedFinish.length);
+
+        for (let i = 1; i <= len; i++) {
+
+            let nodeA = nodesVisitedOrderedStart[i];
+            let nodeB = nodesVisitedOrderedFinish[i];
+
+            if (i === nodesVisitedOrderedStart.length) {
+
+                setTimeout(() => {
+                    let visitedNodesInOrder = getVisitedNodesInOrder(nodesVisitedOrderedStart, nodesVisitedOrderedFinish);
+
+                    if (isShortedPath) {
+                        this.animateShortestPath(nodesOptPathOrdered, visitedNodesInOrder);
+                    } else {
+                        this.setState({
+                            visualizingAlgorithm: false
+                        });
+                    }
+
+                }, i * this.state.speed);
+
+                return;
+
+            }
+
+            setTimeout(() => {
+
+                // Visited nodes.
+                if (nodeA !== undefined) {
+                    document.getElementById(`node-${nodeA.row}-${nodeA.col}`).className = "node node-visited";
+                }
+
+                if (nodeB !== undefined) {
+                    document.getElementById(`node-${nodeB.row}-${nodeB.col}`).className = "node node-visited";
+                }
+
+            }, i * this.state.speed);
+
+        }
+
+    }
+
     visualizeDijkstra() {
 
         if (this.state.visualizingAlgorithm || this.state.generatingMaze) return;
@@ -330,6 +376,28 @@ class MazeSolver extends Component {
             
         }, this.state.speed);
 
+    }
+
+    visualizeBidirectionalGreedySearch() {
+        if(this.state.visualizingAlgorithm || this.state.generatingMaze) return;
+
+        this.setState({
+            visualizingAlgorithm : true
+        });
+
+        setTimeout(() => {
+            const {grid} = this.state;
+            const startNode = grid[startNodeRow][startNodeCol];
+            const finishNode = grid[finishNodeRow][finishNodeCol];
+
+            const visitedNodesInOrder = bidirGreedySearch(grid,startNode, finishNode);
+            const visitedNodesInOrderStart = visitedNodesInOrder[0];
+            const visitedNodesInOrderFinish = visitedNodesInOrder[1];
+            const isShortedPath = visitedNodesInOrder[2];
+            const nodesInShortestPathOrder = getOptPathNodes_BidirGreedySearch(visitedNodesInOrderStart[visitedNodesInOrderStart.length-1],visitedNodesInOrderFinish[visitedNodesInOrderFinish.length-1]);
+
+            this.animateBidirectionalAlgorithm(visitedNodesInOrderStart,visitedNodesInOrderFinish,nodesInShortestPathOrder,isShortedPath);
+        }, this.state.speed);
     }
 
     // MAZE METHODS:
@@ -464,6 +532,7 @@ class MazeSolver extends Component {
                     visualizeDFS= {this.visualizeDFS.bind(this)}
                     visualizeGreedyBFS= {this.visualizeGreedyBFS.bind(this)}
                     visualizeAStar = {this.visualizeAStar.bind(this)}
+                    visualizeBidirectionalGreedySearch = {this.visualizeBidirectionalGreedySearch.bind(this)}
 
                     generateRandomMaze= {this.generateRandomMaze.bind(this)}
                     generateRecursiveDivisionMaze={this.generateRecursiveDivisionMaze.bind(this)}
