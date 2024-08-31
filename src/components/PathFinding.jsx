@@ -10,7 +10,7 @@ import {dijkstra, getOptPathNodes_Dijkstra,} from "../search_algorithms/dijkstra
 import { breadthFirstSearch , getOptPathNodes_BFS } from "../search_algorithms/breadthFirstSearch";
 import { depthFirstSearch, getOptPathNodes_DFS } from "../search_algorithms/depthFirstSearch";
 import { greedyBestFS , getOptPathNodes_GreedyBestFS } from "../search_algorithms/greedyBestFirstSearch";
-import { aStar , getOptPathNodes_AStar } from "../maze_algorithms/astar";
+import { aStar , getOptPathNodes_AStar } from "../search_algorithms/astar";
 
 
 import {recursiveDivisionMaze} from "../maze_algorithms/recursiveDivisionMaze";
