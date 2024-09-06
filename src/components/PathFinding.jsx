@@ -12,6 +12,7 @@ import { depthFirstSearch, getOptPathNodes_DFS } from "../search_algorithms/dept
 import { greedyBestFS , getOptPathNodes_GreedyBestFS } from "../search_algorithms/greedyBestFirstSearch";
 import { aStar , getOptPathNodes_AStar } from "../search_algorithms/astar";
 import { bidirGreedySearch , getOptPathNodes_BidirGreedySearch } from "../search_algorithms/birdirGreedySearch";
+import { randomWalk } from "../search_algorithms/randomWalk";
 
 
 import {recursiveDivisionMaze} from "../maze_algorithms/recursiveDivisionMaze";
@@ -400,6 +401,28 @@ class MazeSolver extends Component {
         }, this.state.speed);
     }
 
+    visualizeRandomWalk() {
+
+        if (this.state.visualizingAlgorithm || this.state.generatingMaze) return;
+
+        this.setState({
+            visualizingAlgorithm: true
+        });
+
+        setTimeout(() => {
+
+            const {grid} = this.state;
+            const startNode = grid[startNodeRow][startNodeCol];
+            const finishNode = grid[finishNodeRow][finishNodeCol];
+
+            const visitedNodesInOrder = randomWalk(grid, startNode, finishNode);
+
+            this.animateRandomWalk(visitedNodesInOrder);
+
+        }, this.state.speed);
+
+    }
+
     // MAZE METHODS:
 
     animateMaze = (walls) => {
@@ -533,6 +556,7 @@ class MazeSolver extends Component {
                     visualizeGreedyBFS= {this.visualizeGreedyBFS.bind(this)}
                     visualizeAStar = {this.visualizeAStar.bind(this)}
                     visualizeBidirectionalGreedySearch = {this.visualizeBidirectionalGreedySearch.bind(this)}
+                    visualizeRandomWalk = {this.visualizeRandomWalk.bind(this)}
 
                     generateRandomMaze= {this.generateRandomMaze.bind(this)}
                     generateRecursiveDivisionMaze={this.generateRecursiveDivisionMaze.bind(this)}
