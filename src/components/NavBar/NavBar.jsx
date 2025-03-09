@@ -167,7 +167,7 @@ class NavBar extends Component {
             <nav className="navbar navbar-expand navbar-dark">
 
                 {/* Title of the page in the navigation bar. */}
-                <a className="navbar-brand h1 mb-0" href="https://github.com/NMPoole/MazeSolver">
+                <a className="navbar-brand h1 mb-0" href="https://path-finding-visualizer-rho.vercel.app/">
                     {window.innerWidth > 800 ? "Path Finding Visualizer" : "Path Finding Visualizer"}
                 </a>
 
